@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 
 // dotenv.config({ path: ".env" });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     logger.info(`Server mode is ${app.get("env")}`);
