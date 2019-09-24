@@ -5,7 +5,7 @@ import logger from "./config/logger";
 import { toNumber } from "./utils/utils";
 import dotenv from "dotenv";
 
-dotenv.config({ path: ".env" });
+// dotenv.config({ path: ".env" });
 
 const PORT = 3000;
 
