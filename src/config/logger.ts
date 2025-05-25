@@ -1,51 +1,53 @@
 import winston from "winston";
-import dotenv from "dotenv";
 
-dotenv.config({ path: ".env" });
 const prod = process.env.NODE_ENV === "production";
 
-const customFormat = winston.format.combine(
-  winston.format.label({
-    label: 'article-api'
-  }),
-  winston.format.timestamp({ format: "DD-MM-YYYY HH:mm:ss" }),
+const consoleFormat = winston.format.combine(
   winston.format.colorize(),
+  winston.format.label({ label: "article-api" }),
+  winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   winston.format.printf(({ level, message, label, timestamp }) => {
     return `${timestamp} ${level} [${label}]: ${message}`;
   })
 );
 
-const options = {
-  file: {
-    level: prod ? "info" : "info",
-    filename: prod ? "info.log" : "info.log",
-    datePattern: "DD-MM-YYYY HH:mm:ss",
-    zippedArchive: true,
-    timestamp: true,
+const fileFormat = winston.format.combine(
+  winston.format.label({ label: "article-api" }),
+  winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+  winston.format.printf(({ level, message, label, timestamp }) => {
+    return `${timestamp} ${level} [${label}]: ${message}`;
+  })
+);
+
+// Explicitly type transports array to allow multiple transport types
+const transports: winston.transport[] = [
+  new winston.transports.Console({
+    level: prod ? "info" : "debug",
     handleExceptions: true,
-    humanReadableUnhandledException: true,
-    maxSize: "20m", // 5MB
-    maxFiles: 14,
-    rotate: true,
-    colorize: true,
-    format: customFormat,
-    prettyPrint: true
-  },
-  console: {
-    level: "debug",
-    handleExceptions: true,
-    format: customFormat
-  }
-};
+    format: consoleFormat,
+  }),
+];
+
+if (prod) {
+  transports.push(
+    new winston.transports.File({
+      filename: "info.log",
+      level: "info",
+      handleExceptions: true,
+      format: fileFormat,
+      maxsize: 20 * 1024 * 1024, // 20MB
+      maxFiles: 14,
+    })
+  );
+}
 
 const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(options.console),
-  ]
+  transports,
+  exitOnError: false,
 });
 
-if (process.env.NODE_ENV !== "production") {
-  logger.debug("Logging initialized in debug level");
+if (!prod) {
+  logger.debug("Logging initialized at debug level");
 }
 
 export default logger;

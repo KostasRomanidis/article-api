@@ -1,80 +1,33 @@
-import { Request, Response, NextFunction } from "express";
-import { Article } from "./article.model"
+import { Request, Response } from "express";
+import { Article } from "./article.model";
+import articles from "../data/articles.mock.json";
 
+/**
+ * Controller for handling article-related API requests.
+ */
 export default class ArticleController {
-    public getArticle = (
+    /**
+     * Returns a single article by id from the mock data.
+     */
+    public getArticleById = (
         request: Request,
-        response: Response,
-        next: NextFunction
+        response: Response
     ) => {
-        response.status(200).send({
-            "source": "TechCrunch",
-            "author": "Darrell Etherington",
-            "title": "Amazon launches Amazon Care, a virtual and in-person healthcare offering for employees",
-            "description": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and …",
-            "url": "https://techcrunch.com/2019/09/24/amazon-care-healthcare-service/",
-            "urlToImage": "https://techcrunch.com/wp-content/uploads/2019/09/amazon-care.jpg?w=691",
-            "publishedAt": "2019-09-24T20:21:34Z",
-            "content": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and … [+3192 chars]"
-        });
+        const id = Number(request.params.id);
+        const article = articles.find((article: Article) => article.id === id);
+        if (!article) {
+            return response.status(404).send({ message: "Article not found" });
+        }
+        response.status(200).send(article);
     };
 
+    /**
+     * Returns all articles from the mock data.
+     */
     public getArticles = (
         request: Request,
-        response: Response,
-        next: NextFunction
+        response: Response
     ) => {
-        response.status(200).send([
-            {
-                "source": "TechCrunch",
-                "author": "Darrell Etherington",
-                "title": "Amazon launches Amazon Care, a virtual and in-person healthcare offering for employees",
-                "description": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and …",
-                "url": "https://techcrunch.com/2019/09/24/amazon-care-healthcare-service/",
-                "urlToImage": "https://techcrunch.com/wp-content/uploads/2019/09/amazon-care.jpg?w=691",
-                "publishedAt": "2019-09-24T20:21:34Z",
-                "content": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and … [+3192 chars]"
-            },
-            {
-                "source": "TechCrunch",
-                "author": "Darrell Etherington",
-                "title": "Amazon launches Amazon Care, a virtual and in-person healthcare offering for employees",
-                "description": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and …",
-                "url": "https://techcrunch.com/2019/09/24/amazon-care-healthcare-service/",
-                "urlToImage": "https://techcrunch.com/wp-content/uploads/2019/09/amazon-care.jpg?w=691",
-                "publishedAt": "2019-09-24T20:21:34Z",
-                "content": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and … [+3192 chars]"
-            },
-            {
-                "source": "TechCrunch",
-                "author": "Darrell Etherington",
-                "title": "Amazon launches Amazon Care, a virtual and in-person healthcare offering for employees",
-                "description": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and …",
-                "url": "https://techcrunch.com/2019/09/24/amazon-care-healthcare-service/",
-                "urlToImage": "https://techcrunch.com/wp-content/uploads/2019/09/amazon-care.jpg?w=691",
-                "publishedAt": "2019-09-24T20:21:34Z",
-                "content": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and … [+3192 chars]"
-            },
-            {
-                "source": "TechCrunch",
-                "author": "Darrell Etherington",
-                "title": "Amazon launches Amazon Care, a virtual and in-person healthcare offering for employees",
-                "description": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and …",
-                "url": "https://techcrunch.com/2019/09/24/amazon-care-healthcare-service/",
-                "urlToImage": "https://techcrunch.com/wp-content/uploads/2019/09/amazon-care.jpg?w=691",
-                "publishedAt": "2019-09-24T20:21:34Z",
-                "content": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and … [+3192 chars]"
-            },
-            {
-                "source": "TechCrunch",
-                "author": "Darrell Etherington",
-                "title": "Amazon launches Amazon Care, a virtual and in-person healthcare offering for employees",
-                "description": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and …",
-                "url": "https://techcrunch.com/2019/09/24/amazon-care-healthcare-service/",
-                "urlToImage": "https://techcrunch.com/wp-content/uploads/2019/09/amazon-care.jpg?w=691",
-                "publishedAt": "2019-09-24T20:21:34Z",
-                "content": "Amazon has gone live with Amazon Care, a new pilot healthcare service offering that is initially available to its employees in and around the Seattle area. The Amazon Care offering includes both virtual and in-person care, with telemedicine via app, chat and … [+3192 chars]"
-            }
-        ]);
+        response.status(200).send(articles);
     };
 }
