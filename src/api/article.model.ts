@@ -3,6 +3,7 @@
  */
 export interface Article {
     id: number;
+    source: string;
     author: string;
     title: string;
     description: string;

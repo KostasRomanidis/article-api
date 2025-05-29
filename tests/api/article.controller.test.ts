@@ -18,4 +18,21 @@ describe("Article API", () => {
     const res = await request(app).get("/api/articles/9999");
     expect(res.status).toBe(404);
   });
+
+  it("should create a new article", async () => {
+    const newArticle = {
+      source: "Test Source",
+      author: "Test Author",
+      title: "Test Title",
+      description: "Test Description",
+      url: "http://example.com",
+      urlToImage: "http://example.com/image.jpg",
+      publishedAt: "2024-05-30T12:00:00Z",
+      content: "Test Content"
+    };
+    const res = await request(app).post("/api/articles").send(newArticle);
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty("id");
+    expect(res.body.title).toBe("Test Title");
+  });
 });

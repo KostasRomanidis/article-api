@@ -19,4 +19,10 @@ router.get("/articles", articleController.getArticles);
  */
 router.get("/articles/:id", articleController.getArticleById);
 
+/**
+ * @route POST /api/articles
+ * @desc Create a new article (mock)
+ */
+router.post("/articles", articleController.createArticle);
+
 export default router;
