@@ -38,6 +38,7 @@ This project provides endpoints for retrieving articles, designed to support mob
 git clone https://github.com/your-username/article-api.git
 cd article-api
 npm install
+cp .env.example .env
 ```
 
 ### Running in Development
@@ -54,6 +55,19 @@ The API will be available at [http://localhost:3000/api/articles](http://localho
 npm run build
 npm start
 ```
+
+---
+
+## Environment Variables
+
+- Copy `.env.example` to `.env` and edit as needed:
+  ```bash
+  cp .env.example .env
+  ```
+- Example:
+  ```
+  PORT=3000
+  ```
 
 ---
 
@@ -74,7 +88,7 @@ src/
 ## Customization
 
 - To add or modify articles, edit `src/data/articles.mock.json`.
-- To change the port, set the `PORT` environment variable.
+- To change the port, edit the `PORT` value in your `.env` file.
 
 ---
 
