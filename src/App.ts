@@ -4,6 +4,7 @@ import api from "./api/index";
 import compression from "compression";
 import morgan from "morgan";
 import logger from "./config/logger";
+import errorHandler from "./middlewares/errorHandler";
 
 class App {
     public express: express.Application;
@@ -12,6 +13,7 @@ class App {
         this.express = express();
         this.setMiddlewares();
         this.setRoutes();
+        this.setErrorHandler();
     }
 
     private setMiddlewares = (): void => {
@@ -32,6 +34,10 @@ class App {
     private setRoutes = (): void => {
         this.express.use("/api", api);
     };
+
+    private setErrorHandler = (): void => {
+        this.express.use(errorHandler);
+    }
 }
 
 export default new App().express;
