@@ -1,5 +1,7 @@
 import { Router } from "express";
 import ArticleController from "./article.controller";
+import { createArticleValidation } from "./article.validation";
+import validate from "../middlewares/validate";
 
 /**
  * API Router for article-related endpoints.
@@ -23,6 +25,6 @@ router.get("/articles/:id", articleController.getArticleById);
  * @route POST /api/articles
  * @desc Create a new article (mock)
  */
-router.post("/articles", articleController.createArticle);
+router.post("/articles", createArticleValidation, validate, articleController.createArticle);
 
 export default router;
