@@ -10,6 +10,6 @@ export const toBoolean = (value: string): boolean => value === "true";
 
 /**
  * Converts a string value to a number using base 10.
- * Returns NaN if the value cannot be parsed as a number.
+ * Returns NaN if the value is missing or cannot be parsed as a number.
  */
-export const toNumber = (value: string): number => parseInt(value, 10);
+export const toNumber = (value: string | undefined): number => parseInt(value ?? "", 10);

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import ArticleController from "./article.controller";
-import { createArticleValidation } from "./article.validation";
+import { articleIdValidation, createArticleValidation } from "./article.validation";
 import validate from "../middlewares/validate";
 
 /**
@@ -19,7 +19,7 @@ router.get("/articles", articleController.getArticles);
  * @route GET /api/articles/:id
  * @desc Get a single article by id (mock)
  */
-router.get("/articles/:id", articleController.getArticleById);
+router.get("/articles/:id", articleIdValidation, validate, articleController.getArticleById);
 
 /**
  * @route POST /api/articles
